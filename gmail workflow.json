@@ -1,0 +1,191 @@
+{
+  "name": "gmail workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -704,
+        0
+      ],
+      "id": "1ebb8ce8-cae2-4efb-996a-158fbeceb8b2",
+      "name": "When chat message received",
+      "webhookId": "6cd22acc-c5f3-48b9-8713-ebed33128401"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ed4aeba0-0b9f-442e-9a5d-19dd3d99e6ff",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -496,
+        0
+      ],
+      "id": "8503dea9-b6bc-4be8-90e9-7ee19ce265f9",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        64,
+        -256
+      ],
+      "id": "a1dda3e5-6d19-4bf3-96ae-c35cc73235d4",
+      "name": "Admin"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -32
+      ],
+      "id": "d757f56a-8bbd-4d93-82fc-33390957b5ff",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Yu1jKDusUFRJR4Xt",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        -32
+      ],
+      "id": "97e2407a-b70e-42cd-b120-0688cc8f23a9",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        -48
+      ],
+      "id": "9d091cc1-fad2-48a1-9df7-ba6e4d031ab9",
+      "name": " Gmail",
+      "webhookId": "31a0ab37-6034-4247-9e7f-f345de297816",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "aQONRkGFwO60lV8A",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Admin",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Admin",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Admin",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "Admin",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "61090469-894e-482e-89d8-187c329a3022",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e63a404c2efdc0f232dc241cc22da64fbaca733b281f03aae62fa0c1c84af305"
+  },
+  "id": "ovVcKHCdKUPDQF2m",
+  "tags": []
+}
